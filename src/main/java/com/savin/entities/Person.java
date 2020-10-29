@@ -18,7 +18,7 @@ public class Person {
         }
     }
 
-    Person(int ID, String fullName, LocalDate birthDate, String gender, String passportDetails) {
+    public Person(int ID, String fullName, LocalDate birthDate, String gender, String passportDetails) {
         this.ID = ID;
         this.fullName = fullName;
         this.birthDate = birthDate;

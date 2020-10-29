@@ -11,6 +11,10 @@ public abstract class Contract {
     private int contractNumber;
     private Person contractHolder;
 
+    public int getID() {
+        return ID;
+    }
+
     Contract(int ID, LocalDate startDate, LocalDate endDate, int contractNumber, Person contractHolder) {
         this.ID = ID;
         this.startDate = startDate;

@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class DigitalTelevision extends Contract {
     private ChannelPackage channelPackage;
 
-    DigitalTelevision(int ID, LocalDate startDate, LocalDate endDate, int contractNumber, Person contractHolder,
+    public DigitalTelevision(int ID, LocalDate startDate, LocalDate endDate, int contractNumber, Person contractHolder,
                       ChannelPackage channelPackage) {
         super(ID, startDate, endDate, contractNumber, contractHolder);
         this.channelPackage = channelPackage;
