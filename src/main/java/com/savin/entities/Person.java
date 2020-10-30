@@ -10,6 +10,10 @@ public class Person {
     private String gender;
     private String passportDetails;
 
+    public int getID() {
+        return ID;
+    }
+
     public int getAge() {
         if (birthDate != null) {
             return Period.between(birthDate, LocalDate.now()).getYears();

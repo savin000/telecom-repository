@@ -9,10 +9,6 @@ public class MobileCommunication extends Contract{
     private int sms;
     private double traffic; // GB
 
-    public int getID() {
-        return super.getID();
-    }
-
     public MobileCommunication(int ID, LocalDate startDate, LocalDate endDate, int contractNumber, Person contractHolder,
                         int minutes, int sms, double traffic) {
         super(ID, startDate, endDate, contractNumber, contractHolder);
