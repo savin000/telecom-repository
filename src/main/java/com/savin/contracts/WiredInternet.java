@@ -7,6 +7,10 @@ import java.time.LocalDate;
 public class WiredInternet extends Contract {
     private double connectionSpeed;
 
+    public double getConnectionSpeed() {
+        return connectionSpeed;
+    }
+
     public WiredInternet(int ID, LocalDate startDate, LocalDate endDate, int contractNumber, Person contractHolder,
                   double connectionSpeed) {
         super(ID, startDate, endDate, contractNumber, contractHolder);

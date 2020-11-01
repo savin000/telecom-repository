@@ -7,6 +7,10 @@ public class Repository<E> {
     private int size = 0; // size of the current repository
     private Object[] repository;
 
+    public int getSize() {
+        return size;
+    }
+
     Repository() {
         repository = new Object[DEFAULT_CAPACITY];
     }
@@ -20,10 +24,6 @@ public class Repository<E> {
         Object[] newRepository = new Object[newCapacity];
         System.arraycopy(repository, 0, newRepository, 0, repository.length);
         repository = newRepository;
-    }
-
-    public int getSize() {
-        return size;
     }
 
     public void addContract(Contract contract) {

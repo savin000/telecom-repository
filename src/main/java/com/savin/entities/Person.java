@@ -1,5 +1,7 @@
 package com.savin.entities;
 
+import com.savin.contracts.NoBirthDateException;
+
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -14,11 +16,23 @@ public class Person {
         return ID;
     }
 
-    public int getAge() {
-        if (birthDate != null) {
-            return Period.between(birthDate, LocalDate.now()).getYears();
-        } else {
-            return 0;
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getPassportDetails() {
+        return passportDetails;
+    }
+
+    public int getAge() throws NoBirthDateException {
+        try {
+           return Period.between(birthDate, LocalDate.now()).getYears();
+        } catch (NullPointerException e) {
+            throw new NoBirthDateException(e);
         }
     }
 
