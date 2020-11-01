@@ -35,7 +35,7 @@ public class RepositoryTest {
     // Data reliability will be checked by "getById" method
 
     @Test
-    public void addContract_OnlyOne_True() {
+    public void addContract_onlyOne() {
         Repository<Contract> repository = new Repository<>();
         Contract wiredInternet = new WiredInternet(123, LocalDate.of(2020, 1, 15), LocalDate.now(),
                 15, persons[0], 100);
@@ -47,12 +47,10 @@ public class RepositoryTest {
 
         expectedSize = 1;
         assertEquals(expectedSize, repository.getSize());
-        expectedSize = 2;
-        assertNotEquals(expectedSize, repository.getSize());
     }
 
     @Test
-    public void addContract_ThreeDifferent_True() {
+    public void addContract_threeDifferent() {
         Repository<Contract> repository = new Repository<>();
         Contract wiredInternet = new WiredInternet(123, LocalDate.of(2020, 1, 15), LocalDate.now(),
                 15, persons[0], 100);
@@ -67,18 +65,18 @@ public class RepositoryTest {
         repository.addContract(wiredInternet);
         expectedSize = 1;
         assertEquals(expectedSize, repository.getSize());
+
         repository.addContract(digitalTelevision);
         expectedSize = 2;
         assertEquals(expectedSize, repository.getSize());
+
         repository.addContract(mobileCommunication);
         expectedSize = 3;
         assertEquals(expectedSize, repository.getSize());
-        expectedSize = 0;
-        assertNotEquals(expectedSize, repository.getSize());
     }
 
     @Test
-    public void should_UpdateCapacity_When_Overrun() {
+    public void should_updateCapacity_when_overrun() {
         Repository<Contract> repository = new Repository<>(1);
         Contract wiredInternet = new WiredInternet(123, LocalDate.of(2020, 1, 15), LocalDate.now(),
                 15, persons[0], 100);
@@ -88,13 +86,14 @@ public class RepositoryTest {
         repository.addContract(wiredInternet);
         int expectedSize = 1;
         assertEquals(expectedSize, repository.getSize());
+
         repository.addContract(digitalTelevision);
         expectedSize = 2;
         assertEquals(expectedSize, repository.getSize());
     }
 
     @Test
-    public void deleteByID_CorrectID_True() {
+    public void deleteByID_correctID() {
         Repository<Contract> repository = new Repository<>();
         Contract mobileCommunication = new MobileCommunication(99, LocalDate.of(2017, 7, 30),
                 LocalDate.of(2024, 9, 1), 17, persons[1], 200, 200, 10);
@@ -114,7 +113,7 @@ public class RepositoryTest {
     }
 
     @Test
-    public void deleteByID_IncorrectID_True() {
+    public void deleteByID_incorrectID() {
         Repository<Contract> repository = new Repository<>();
         Contract mobileCommunication = new MobileCommunication(99, LocalDate.of(2017, 7, 30),
                 LocalDate.of(2024, 9, 1), 17, persons[1], 200, 200, 10);
@@ -133,7 +132,7 @@ public class RepositoryTest {
     }
 
     @Test
-    public void getByID_CorrectID_True() {
+    public void getByID_correctID() {
         Repository<Contract> repository = new Repository<>();
         Contract wiredInternet = new WiredInternet(123, LocalDate.of(2020, 1, 15), LocalDate.now(),
                 15, persons[0], 100);
@@ -143,11 +142,11 @@ public class RepositoryTest {
 
         repository.addContract(wiredInternet);
 
-        assertEquals(repository.getByID(123), wiredInternet);
+        assertEquals(wiredInternet, repository.getByID(123));
     }
 
     @Test
-    public void getByID_IncorrectID_True() {
+    public void getByID_incorrectID() {
         Repository<Contract> repository = new Repository<>();
         Contract wiredInternet = new WiredInternet(123, LocalDate.of(2020, 1, 15), LocalDate.now(),
                 15, persons[0], 100);
@@ -157,7 +156,24 @@ public class RepositoryTest {
 
         repository.addContract(wiredInternet);
 
-        assertNotEquals(repository.getByID(6), wiredInternet);
+        assertNotEquals(wiredInternet, repository.getByID(6));
     }
 
+    @Test
+    public void should_getByID_when_addedAfterOverrun() {
+        Repository<Contract> repository = new Repository<>(0);
+        Contract wiredInternet = new WiredInternet(1, LocalDate.of(2020, 1, 15), LocalDate.now(),
+                15, persons[0], 100);
+        Contract mobileCommunication = new MobileCommunication(99, LocalDate.of(2017, 7, 30),
+                LocalDate.of(2024, 9, 1), 17, persons[1], 200, 200, 10);
+
+        int expectedSize = 0;
+        assertEquals(expectedSize, repository.getSize());
+
+        repository.addContract(wiredInternet);
+        repository.addContract(mobileCommunication);
+
+        assertEquals(wiredInternet, repository.getByID(1));
+        assertEquals(mobileCommunication, repository.getByID(99));
+    }
 }
