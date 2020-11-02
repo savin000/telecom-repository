@@ -14,7 +14,16 @@ import java.time.LocalDate;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+/**
+ * A class to test class Repository
+ *
+ * @author Mikhail Savin
+ * @since 1.0
+ */
 public class RepositoryTest {
+    /**
+     * An array where persons are stored
+     */
     Person[] persons = new Person[3];
 
     @Before
@@ -29,10 +38,6 @@ public class RepositoryTest {
                 "A1CDEFGHI");
         persons[2] = person3;
     }
-
-    // We do not really care about correctness of added contracts,
-    // we are interested in the fact of addition contracts to repository
-    // Data reliability will be checked by "getById" method
 
     @Test
     public void addContract_onlyOne() {
