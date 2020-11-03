@@ -79,15 +79,21 @@ public class Repository<E> {
      * @param ID this contract's ID
      */
     public void deleteByID(int ID) {
-        for (int i = 0; i < size; i++) {
-            if (repository[i] instanceof Contract) {
-                if (((Contract) repository[i]).getID() == ID) {
-                    repository[i] = null;
+        Object[] newRepository = new Object[repository.length];
+        int i = 0;
+
+        for (Object obj : repository) {
+            if (obj instanceof Contract) {
+                if (((Contract) obj).getID() != ID) {
+                    newRepository[i] = obj;
+                    i = i + 1;
+                } else {
                     log.info("Contract with ID " + ID + " was deleted");
                     size = size - 1;
                 }
             }
         }
+        repository = newRepository;
     }
 
     /**

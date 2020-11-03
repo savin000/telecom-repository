@@ -118,6 +118,40 @@ public class RepositoryTest {
     }
 
     @Test
+    public void deleteByID_threeInARow_correctID() {
+        Repository<Contract> repository = new Repository<>();
+        Contract mobileCommunication1 = new MobileCommunication(1, LocalDate.of(2017, 7, 30),
+                LocalDate.of(2024, 9, 1), 17, persons[1], 200, 200, 10);
+        Contract mobileCommunication2 = new MobileCommunication(2, LocalDate.of(2015, 7, 30),
+                LocalDate.of(2024, 9, 1), 17, persons[2], 200, 200, 10);
+        Contract wiredInternet1 = new WiredInternet(3, LocalDate.of(2020, 1, 15), LocalDate.now(),
+                15, persons[0], 100);
+        Contract wiredInternet2 = new WiredInternet(4, LocalDate.of(2020, 1, 15), LocalDate.now(),
+                15, persons[2], 50);
+        Contract digitalTelevision1 = new DigitalTelevision(5, LocalDate.of(2019, 3, 12),
+                LocalDate.of(2022, 3, 12), 16, persons[1], ChannelPackage.ULTIMATE);
+
+        int expectedSize = 0;
+        assertEquals(expectedSize, repository.getSize());
+
+        repository.addContract(mobileCommunication1);
+        repository.addContract(mobileCommunication2);
+        repository.addContract(wiredInternet1);
+        repository.addContract(wiredInternet2);
+        repository.addContract(digitalTelevision1);
+
+        expectedSize = 5;
+        assertEquals(expectedSize, repository.getSize());
+
+        repository.deleteByID(1);
+        repository.deleteByID(2);
+        repository.deleteByID(3);
+
+        expectedSize = 2;
+        assertEquals(expectedSize, repository.getSize());
+    }
+
+    @Test
     public void deleteByID_incorrectID() {
         Repository<Contract> repository = new Repository<>();
         Contract mobileCommunication = new MobileCommunication(99, LocalDate.of(2017, 7, 30),
@@ -180,5 +214,47 @@ public class RepositoryTest {
 
         assertEquals(wiredInternet, repository.getByID(1));
         assertEquals(mobileCommunication, repository.getByID(99));
+    }
+
+    @Test
+    public void should_getByID_when_threeInARow_deletedByID() {
+        Repository<Contract> repository = new Repository<>();
+        Contract mobileCommunication1 = new MobileCommunication(1, LocalDate.of(2017, 7, 30),
+                LocalDate.of(2024, 9, 1), 17, persons[1], 200, 200, 10);
+        Contract mobileCommunication2 = new MobileCommunication(2, LocalDate.of(2015, 7, 30),
+                LocalDate.of(2024, 9, 1), 17, persons[2], 200, 200, 10);
+        Contract wiredInternet1 = new WiredInternet(3, LocalDate.of(2020, 1, 15), LocalDate.now(),
+                15, persons[0], 100);
+        Contract wiredInternet2 = new WiredInternet(4, LocalDate.of(2020, 1, 15), LocalDate.now(),
+                15, persons[2], 50);
+        Contract digitalTelevision1 = new DigitalTelevision(5, LocalDate.of(2019, 3, 12),
+                LocalDate.of(2022, 3, 12), 16, persons[1], ChannelPackage.ULTIMATE);
+        Contract digitalTelevision2 = new DigitalTelevision(6, LocalDate.of(2013, 6, 12),
+                LocalDate.of(2022, 3, 12), 16, persons[0], ChannelPackage.SPORTS);
+        Contract digitalTelevision3 = new DigitalTelevision(7, LocalDate.of(2016, 7, 12),
+                LocalDate.of(2022, 3, 12), 16, persons[2], ChannelPackage.BASIC);
+
+        int expectedSize = 0;
+        assertEquals(expectedSize, repository.getSize());
+
+        repository.addContract(mobileCommunication1);
+        repository.addContract(mobileCommunication2);
+        repository.addContract(wiredInternet1);
+        repository.addContract(wiredInternet2);
+        repository.addContract(digitalTelevision1);
+        repository.addContract(digitalTelevision2);
+        repository.addContract(digitalTelevision3);
+
+        repository.deleteByID(1);
+        repository.deleteByID(3);
+        repository.deleteByID(4);
+        repository.deleteByID(5);
+
+        assertEquals(mobileCommunication2, repository.getByID(2));
+        assertEquals(digitalTelevision2, repository.getByID(6));
+        assertEquals(digitalTelevision3, repository.getByID(7));
+
+        expectedSize = 3;
+        assertEquals(expectedSize, repository.getSize());
     }
 }
