@@ -35,6 +35,13 @@ public class MobileCommunication extends Contract{
     }
 
     /**
+     * @param minutes number of minutes to set
+     */
+    public void setMinutes(int minutes) {
+        this.minutes = minutes;
+    }
+
+    /**
      * @return number of SMS
      */
     public int getSms() {
@@ -42,10 +49,24 @@ public class MobileCommunication extends Contract{
     }
 
     /**
+     * @param sms number of SMS to set
+     */
+    public void setSms(int sms) {
+        this.sms = sms;
+    }
+
+    /**
      * @return amount of Internet traffic (in GBytes)
      */
     public double getTraffic() {
         return traffic;
+    }
+
+    /**
+     * @param traffic number of GBytes to set
+     */
+    public void setTraffic(double traffic) {
+        this.traffic = traffic;
     }
 
     /**

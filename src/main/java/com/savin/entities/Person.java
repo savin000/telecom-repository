@@ -46,10 +46,24 @@ public class Person {
     }
 
     /**
+     * @param ID ID to set
+     */
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    /**
      * @return this person's full name
      */
     public String getFullName() {
         return fullName;
+    }
+
+    /**
+     * @param fullName person's full name to set
+     */
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     /**
@@ -60,12 +74,25 @@ public class Person {
     }
 
     /**
+     * @param gender person's gender to set
+     */
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    /**
      * @return this person's passport details
      */
     public String getPassportDetails() {
         return passportDetails;
     }
 
+    /**
+     * @param passportDetails person's passport details to set
+     */
+    public void setPassportDetails(String passportDetails) {
+        this.passportDetails = passportDetails;
+    }
 
     /**
      * This method calculates a person's age based on the specified date of birth and the current date
@@ -78,6 +105,13 @@ public class Person {
         } catch (NullPointerException e) {
             throw new NoBirthDateException(e);
         }
+    }
+
+    /**
+     * @param birthDate person's date of birth to set (a date without a time-zone in the ISO-8601 calendar system)
+     */
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
     /**

@@ -38,7 +38,7 @@ public class Repository<E> {
     /**
      * Creates a new Repository with default capacity
      */
-    Repository() {
+    public Repository() {
         repository = new Object[DEFAULT_CAPACITY];
     }
 
@@ -46,7 +46,7 @@ public class Repository<E> {
      * Creates a new Repository with the specified capacity
      * @param capacity specified capacity
      */
-    Repository(int capacity) {
+    public Repository(int capacity) {
         repository = new Object[capacity];
     }
 

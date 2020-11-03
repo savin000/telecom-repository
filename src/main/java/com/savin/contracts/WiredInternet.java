@@ -25,6 +25,13 @@ public class WiredInternet extends Contract {
     }
 
     /**
+     * @param connectionSpeed Internet connection speed to set
+     */
+    public void setConnectionSpeed(double connectionSpeed) {
+        this.connectionSpeed = connectionSpeed;
+    }
+
+    /**
      * Creates a new Wired Internet Contract with the given ID, contract start date, contract end date,
      * contract number, contract holder and Internet connection speed
      *

@@ -26,6 +26,13 @@ public class DigitalTelevision extends Contract {
     }
 
     /**
+     * @param channelPackage channel package to set
+     */
+    public void setChannelPackage(ChannelPackage channelPackage) {
+        this.channelPackage = channelPackage;
+    }
+
+    /**
      * Creates a new Digital TV Contract with the given ID, contract start date, contract end date,
      * contract number, contract holder and selected channel package.
      *

@@ -49,10 +49,24 @@ public abstract class Contract {
     }
 
     /**
+     * @param ID ID to set
+     */
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    /**
      * @return contract start date
      */
     public LocalDate getStartDate() {
         return startDate;
+    }
+
+    /**
+     * @param startDate contract start date to set (a date without a time-zone in the ISO-8601 calendar system)
+     */
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 
     /**
@@ -63,6 +77,13 @@ public abstract class Contract {
     }
 
     /**
+     * @param endDate contract end date to set (a date without a time-zone in the ISO-8601 calendar system)
+     */
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    /**
      * @return contract number
      */
     public int getContractNumber() {
@@ -70,10 +91,24 @@ public abstract class Contract {
     }
 
     /**
+     * @param contractNumber contract number to set
+     */
+    public void setContractNumber(int contractNumber) {
+        this.contractNumber = contractNumber;
+    }
+
+    /**
      * @return person who holds this contract
      */
     public Person getContractHolder() {
         return contractHolder;
+    }
+
+    /**
+     * @param contractHolder contract holder to set
+     */
+    public void setContractHolder(Person contractHolder) {
+        this.contractHolder = contractHolder;
     }
 
     /**
@@ -86,7 +121,7 @@ public abstract class Contract {
      * @param contractNumber contract number to set
      * @param contractHolder contract holder to set
      */
-    Contract(int ID, LocalDate startDate, LocalDate endDate, int contractNumber, Person contractHolder) {
+    public Contract(int ID, LocalDate startDate, LocalDate endDate, int contractNumber, Person contractHolder) {
         this.ID = ID;
         this.startDate = startDate;
         this.endDate = endDate;
