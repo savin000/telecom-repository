@@ -1,4 +1,4 @@
-package com.savin;
+package com.savin.repository;
 
 import com.savin.contracts.Contract;
 
@@ -10,8 +10,8 @@ import java.util.logging.Logger;
  * @author Mikhail Savin
  * @since 1.0
  */
-public class Repository<E> {
-    Logger log = Logger.getLogger(Repository.class.getName());
+public class ContractRepository implements Repository<Contract> {
+    Logger log = Logger.getLogger(ContractRepository.class.getName());
 
     /**
      * Default capacity of the repository (100 contracts)
@@ -38,7 +38,7 @@ public class Repository<E> {
     /**
      * Creates a new Repository with default capacity
      */
-    public Repository() {
+    public ContractRepository() {
         repository = new Object[DEFAULT_CAPACITY];
     }
 
@@ -46,7 +46,7 @@ public class Repository<E> {
      * Creates a new Repository with the specified capacity
      * @param capacity specified capacity
      */
-    public Repository(int capacity) {
+    public ContractRepository(int capacity) {
         repository = new Object[capacity];
     }
 
@@ -65,7 +65,7 @@ public class Repository<E> {
      * This method adds the contract to the repository
      * @param contract the contract to add
      */
-    public void addContract(Contract contract) {
+    public void add(Contract contract) {
         if (repository.length == size) {
             updateCapacity();
         }
