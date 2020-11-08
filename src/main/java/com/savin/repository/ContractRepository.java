@@ -2,6 +2,7 @@ package com.savin.repository;
 
 import com.savin.contracts.Contract;
 
+import java.util.function.Predicate;
 import java.util.logging.Logger;
 
 /**
@@ -111,5 +112,21 @@ public class ContractRepository implements Repository<Contract> {
             }
         }
         return null;
+    }
+
+    /**
+     * Searches the repository by various criteria
+     * @param predicate search criteria
+     * @return a new repository that contains contracts that meet the search criteria
+     */
+    public Repository<Contract> searchBy(Predicate<Contract> predicate) {
+        Repository<Contract> searchResult = new ContractRepository();
+        for (int i = 0; i < size; i++) {
+            if (predicate.test((Contract) repository[i])) {
+                log.info("Matching contract found");
+                searchResult.add((Contract) repository[i]);
+            }
+        }
+        return searchResult;
     }
 }

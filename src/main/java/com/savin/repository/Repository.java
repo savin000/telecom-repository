@@ -1,5 +1,7 @@
 package com.savin.repository;
 
+import java.util.function.Predicate;
+
 /**
  * Generic repository for storing data
  *
@@ -26,4 +28,11 @@ public interface Repository<E> {
      * @return E
      */
     E getByID(int ID);
+
+    /**
+     * Searches the repository by various criteria
+     * @param predicate search criteria
+     * @return a new repository that contains elements that meet the search criteria
+     */
+    Repository<E> searchBy(Predicate<E> predicate);
 }
