@@ -3,10 +3,14 @@ package com.savin.repository;
 import com.savin.contracts.*;
 import com.savin.entities.Person;
 import com.savin.enums.ChannelPackage;
+import com.savin.repository.core.ContractRepository;
+import com.savin.repository.utils.sorting.BubbleSorter;
+import com.savin.repository.utils.sorting.ShellSorter;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.function.Predicate;
 
 import static org.junit.Assert.*;
@@ -52,6 +56,8 @@ public class ContractRepositoryTest {
 
         expectedSize = 1;
         assertEquals(expectedSize, repository.getSize());
+        assertEquals(wiredInternet, repository.getByIndex(0));
+        assertNull(repository.getByIndex(1));
     }
 
     @Test
@@ -78,6 +84,11 @@ public class ContractRepositoryTest {
         repository.add(mobileCommunication);
         expectedSize = 3;
         assertEquals(expectedSize, repository.getSize());
+
+        assertEquals(wiredInternet, repository.getByIndex(0));
+        assertEquals(digitalTelevision, repository.getByIndex(1));
+        assertEquals(mobileCommunication, repository.getByIndex(2));
+        assertNull(repository.getByIndex(3));
     }
 
     @Test
@@ -110,11 +121,13 @@ public class ContractRepositoryTest {
 
         expectedSize = 1;
         assertEquals(expectedSize, repository.getSize());
+        assertEquals(mobileCommunication, repository.getByIndex(0));
 
         repository.deleteByID(99);
 
         expectedSize = 0;
         assertEquals(expectedSize, repository.getSize());
+        assertNull(repository.getByIndex(0));
     }
 
     @Test
@@ -143,12 +156,20 @@ public class ContractRepositoryTest {
         expectedSize = 5;
         assertEquals(expectedSize, repository.getSize());
 
+        assertEquals(wiredInternet2, repository.getByIndex(3));
+        assertEquals(digitalTelevision1, repository.getByIndex(4));
+
         repository.deleteByID(1);
         repository.deleteByID(2);
         repository.deleteByID(3);
 
         expectedSize = 2;
         assertEquals(expectedSize, repository.getSize());
+
+        // wiredInternet2 now has index=0
+        assertEquals(wiredInternet2, repository.getByIndex(0));
+        // digitalTelevision1 now has index=1
+        assertEquals(digitalTelevision1, repository.getByIndex(1));
     }
 
     @Test
@@ -168,6 +189,7 @@ public class ContractRepositoryTest {
         repository.deleteByID(101);
 
         assertEquals(expectedSize, repository.getSize());
+        assertEquals(mobileCommunication, repository.getByIndex(0));
     }
 
     @Test
@@ -294,6 +316,8 @@ public class ContractRepositoryTest {
         assertEquals(expectedResult, repository.searchBy(greaterThan10).getByID(50));
         expectedResult = digitalTelevision3;
         assertEquals(expectedResult, repository.searchBy(greaterThan10).getByID(70));
+        assertNull(repository.searchBy(greaterThan10).getByID(4));
+        assertNull(repository.searchBy(greaterThan10).getByID(6));
         assertNull(repository.searchBy(greaterThan10).getByID(repository.getSize()));
     }
 
@@ -377,5 +401,165 @@ public class ContractRepositoryTest {
         assertNull(repository.searchBy(ageIsGreaterThan18).getByID(2));
         assertNull(repository.searchBy(ageIsGreaterThan18).getByID(3));
         assertEquals(digitalTelevision2, repository.searchBy(ageIsGreaterThan18).getByID(4));
+    }
+
+    @Test
+    public void sortBy_ID_withBubbleSort() {
+        ContractRepository repository = new ContractRepository();
+        Contract wiredInternet1 = new WiredInternet(1, LocalDate.of(2020, 1, 15), LocalDate.now(),
+                15, persons[0], 100);
+        Contract wiredInternet2 = new WiredInternet(4, LocalDate.of(2020, 1, 15), LocalDate.now(),
+                12, persons[3], 30);
+        Contract digitalTelevision1 = new DigitalTelevision(3, LocalDate.of(2019, 3, 12),
+                LocalDate.of(2022, 3, 12), 56, persons[1], ChannelPackage.ULTIMATE);
+        Contract digitalTelevision2 = new DigitalTelevision(2, LocalDate.of(2019, 3, 12),
+                LocalDate.of(2022, 3, 12), 124, persons[2], ChannelPackage.BASIC);
+
+        repository.add(wiredInternet1);
+        repository.add(wiredInternet2);
+        repository.add(digitalTelevision1);
+        repository.add(digitalTelevision2);
+
+        int expectedSize = 4;
+        assertEquals(expectedSize, repository.getSize());
+
+        Comparator<Contract> ascendingID = Comparator.comparing(Contract::getID);
+
+        assertEquals(wiredInternet1, repository.getByIndex(0));
+        assertEquals(wiredInternet2, repository.getByIndex(1));
+        assertEquals(digitalTelevision1, repository.getByIndex(2));
+        assertEquals(digitalTelevision2, repository.getByIndex(3));
+
+        repository.setSortingAlgorithm(new BubbleSorter<>());
+        repository.sortBy(ascendingID);
+
+        assertEquals(wiredInternet1, repository.getByIndex(0));
+        assertEquals(wiredInternet2, repository.getByIndex(3));
+        assertEquals(digitalTelevision1, repository.getByIndex(2));
+        assertEquals(digitalTelevision2, repository.getByIndex(1));
+    }
+
+    @Test
+    public void sortBy_ID_withShellSort() {
+        ContractRepository repository = new ContractRepository();
+        Contract wiredInternet1 = new WiredInternet(1, LocalDate.of(2020, 1, 15), LocalDate.now(),
+                15, persons[0], 100);
+        Contract wiredInternet2 = new WiredInternet(4, LocalDate.of(2020, 1, 15), LocalDate.now(),
+                12, persons[3], 30);
+        Contract digitalTelevision1 = new DigitalTelevision(3, LocalDate.of(2019, 3, 12),
+                LocalDate.of(2022, 3, 12), 56, persons[1], ChannelPackage.ULTIMATE);
+        Contract digitalTelevision2 = new DigitalTelevision(2, LocalDate.of(2019, 3, 12),
+                LocalDate.of(2022, 3, 12), 124, persons[2], ChannelPackage.BASIC);
+
+        repository.add(wiredInternet1);
+        repository.add(wiredInternet2);
+        repository.add(digitalTelevision1);
+        repository.add(digitalTelevision2);
+
+        int expectedSize = 4;
+        assertEquals(expectedSize, repository.getSize());
+
+        Comparator<Contract> ascendingID = Comparator.comparing(Contract::getID);
+
+        assertEquals(wiredInternet1, repository.getByIndex(0));
+        assertEquals(wiredInternet2, repository.getByIndex(1));
+        assertEquals(digitalTelevision1, repository.getByIndex(2));
+        assertEquals(digitalTelevision2, repository.getByIndex(3));
+
+        repository.setSortingAlgorithm(new ShellSorter<>());
+        repository.sortBy(ascendingID);
+
+        assertEquals(wiredInternet1, repository.getByIndex(0));
+        assertEquals(wiredInternet2, repository.getByIndex(3));
+        assertEquals(digitalTelevision1, repository.getByIndex(2));
+        assertEquals(digitalTelevision2, repository.getByIndex(1));
+    }
+
+    @Test
+    public void sortBy_ageOfContractHolder_withBubbleSort() {
+        ContractRepository repository = new ContractRepository();
+        Contract mobileCommunication1 = new MobileCommunication(1, LocalDate.of(2017, 7, 30),
+                LocalDate.of(2024, 9, 1), 17, persons[1], 200, 200, 10);
+        Contract wiredInternet1 = new WiredInternet(30, LocalDate.of(2020, 1, 15), LocalDate.now(),
+                15, persons[0], 100);
+        Contract wiredInternet2 = new WiredInternet(4, LocalDate.of(2020, 1, 15), LocalDate.now(),
+                15, persons[2], 50);
+        // persons[3].getAge() == null;
+        Contract digitalTelevision3 = new DigitalTelevision(70, LocalDate.of(2016, 7, 12),
+                LocalDate.of(2022, 3, 12), 16, persons[3], ChannelPackage.BASIC);
+
+        repository.add(mobileCommunication1);
+        repository.add(wiredInternet1);
+        repository.add(wiredInternet2);
+        repository.add(digitalTelevision3);
+
+        int expectedSize = 4;
+        assertEquals(expectedSize, repository.getSize());
+
+        Comparator<Contract> ascendingAge = (c1, c2) ->
+        {
+            try {
+                return Integer.signum(c1.getContractHolder().getAge() - c2.getContractHolder().getAge());
+            } catch (NoBirthDateException e) {
+                return 1;
+            }
+        };
+
+        assertEquals(mobileCommunication1, repository.getByIndex(0));
+        assertEquals(wiredInternet1, repository.getByIndex(1));
+        assertEquals(wiredInternet2, repository.getByIndex(2));
+        assertEquals(digitalTelevision3, repository.getByIndex(3));
+
+        repository.setSortingAlgorithm(new BubbleSorter<>());
+        repository.sortBy(ascendingAge);
+
+        assertEquals(mobileCommunication1, repository.getByIndex(1));
+        assertEquals(wiredInternet1, repository.getByIndex(2));
+        assertEquals(wiredInternet2, repository.getByIndex(3));
+        assertEquals(digitalTelevision3, repository.getByIndex(0));
+    }
+
+    @Test
+    public void sortBy_ageOfContractHolder_withShellSort() {
+        ContractRepository repository = new ContractRepository();
+        Contract mobileCommunication1 = new MobileCommunication(1, LocalDate.of(2017, 7, 30),
+                LocalDate.of(2024, 9, 1), 17, persons[1], 200, 200, 10);
+        Contract wiredInternet1 = new WiredInternet(30, LocalDate.of(2020, 1, 15), LocalDate.now(),
+                15, persons[0], 100);
+        Contract wiredInternet2 = new WiredInternet(4, LocalDate.of(2020, 1, 15), LocalDate.now(),
+                15, persons[2], 50);
+        // persons[3].getAge() == null;
+        Contract digitalTelevision3 = new DigitalTelevision(70, LocalDate.of(2016, 7, 12),
+                LocalDate.of(2022, 3, 12), 16, persons[3], ChannelPackage.BASIC);
+
+        repository.add(mobileCommunication1);
+        repository.add(wiredInternet1);
+        repository.add(wiredInternet2);
+        repository.add(digitalTelevision3);
+
+        int expectedSize = 4;
+        assertEquals(expectedSize, repository.getSize());
+
+        Comparator<Contract> ascendingAge = (c1, c2) ->
+        {
+            try {
+                return Integer.signum(c1.getContractHolder().getAge() - c2.getContractHolder().getAge());
+            } catch (NoBirthDateException e) {
+                return 1;
+            }
+        };
+
+        assertEquals(mobileCommunication1, repository.getByIndex(0));
+        assertEquals(wiredInternet1, repository.getByIndex(1));
+        assertEquals(wiredInternet2, repository.getByIndex(2));
+        assertEquals(digitalTelevision3, repository.getByIndex(3));
+
+        repository.setSortingAlgorithm(new ShellSorter<>());
+        repository.sortBy(ascendingAge);
+
+        assertEquals(mobileCommunication1, repository.getByIndex(1));
+        assertEquals(wiredInternet1, repository.getByIndex(2));
+        assertEquals(wiredInternet2, repository.getByIndex(3));
+        assertEquals(digitalTelevision3, repository.getByIndex(0));
     }
 }
