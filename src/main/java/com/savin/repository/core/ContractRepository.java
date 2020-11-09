@@ -1,7 +1,10 @@
-package com.savin.repository;
+package com.savin.repository.core;
 
 import com.savin.contracts.Contract;
+import com.savin.repository.utils.sorting.BubbleSorter;
+import com.savin.repository.utils.sorting.Sorter;
 
+import java.util.Comparator;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -13,6 +16,11 @@ import java.util.logging.Logger;
  */
 public class ContractRepository implements Repository<Contract> {
     Logger log = Logger.getLogger(ContractRepository.class.getName());
+
+    /**
+     * A sorter for sorting the repository
+     */
+    private Sorter<Contract> sorter;
 
     /**
      * Default capacity of the repository (100 contracts)
@@ -41,6 +49,7 @@ public class ContractRepository implements Repository<Contract> {
      */
     public ContractRepository() {
         repository = new Object[DEFAULT_CAPACITY];
+        sorter = new BubbleSorter<>();
     }
 
     /**
@@ -49,6 +58,14 @@ public class ContractRepository implements Repository<Contract> {
      */
     public ContractRepository(int capacity) {
         repository = new Object[capacity];
+        sorter = new BubbleSorter<>();
+    }
+
+    /**
+     * @param sorter sorting algorithm to set
+     */
+    public void setSortingAlgorithm(Sorter<Contract> sorter) {
+        this.sorter = sorter;
     }
 
     /**
@@ -115,10 +132,26 @@ public class ContractRepository implements Repository<Contract> {
     }
 
     /**
+     * This method gets a contract by its index
+     * @param index this contract's index (starting from 0)
+     * @return contract
+     */
+    public Contract getByIndex(int index) {
+        for (int i = 0; i < size; i++) {
+            if (i == index) {
+                log.info("Contract with index " + index + " was successfully got by index");
+                return (Contract) repository[i];
+            }
+        }
+        return null;
+    }
+
+    /**
      * Searches the repository by various criteria
      * @param predicate search criteria
      * @return a new repository that contains contracts that meet the search criteria
      */
+    @Override
     public Repository<Contract> searchBy(Predicate<Contract> predicate) {
         Repository<Contract> searchResult = new ContractRepository();
         for (int i = 0; i < size; i++) {
@@ -128,5 +161,15 @@ public class ContractRepository implements Repository<Contract> {
             }
         }
         return searchResult;
+    }
+
+    /**
+     * Sorts the repository by various criteria.
+     * Several sorting algorithms implemented
+     * @param comparator compare criteria
+     */
+    @Override
+    public void sortBy(Comparator<Contract> comparator) {
+            sorter.sort(repository, size, comparator);
     }
 }

@@ -1,9 +1,10 @@
-package com.savin.repository;
+package com.savin.repository.core;
 
+import java.util.Comparator;
 import java.util.function.Predicate;
 
 /**
- * Generic repository for storing data
+ * Repository for storing data
  *
  * @author Mikhail Savin
  * @since 1.0
@@ -35,4 +36,10 @@ public interface Repository<E> {
      * @return a new repository that contains elements that meet the search criteria
      */
     Repository<E> searchBy(Predicate<E> predicate);
+
+    /**
+     * Sorts the repository by various criteria
+     * @param comparator compare criteria
+     */
+    void sortBy(Comparator<E> comparator);
 }
