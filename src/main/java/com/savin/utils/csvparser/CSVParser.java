@@ -51,16 +51,28 @@ public class CSVParser {
                     .withIgnoreLeadingWhiteSpace(true)
                     .build();
 
+            // can't iterate over empty list, so we need to add a Person
+            persons.add(new Person(0,"", null, "", ""));
+
             for (CSVContract csvContract : csvToBean) {
-                for (Person p : persons) {
+                boolean add = false;
+
+                // check if we already have this person
+                for(Person p : persons) {
                     if ((p.getID() != csvContract.getContractHolderID()) &&
                             (!p.getFullName().equals(csvContract.getFullName())) &&
                             (!p.getGender().equals(csvContract.getGender())) &&
                             (!p.getPassportDetails().equals(csvContract.getPassportDetails()))) {
-                        persons.add(new Person(csvContract.getContractHolderID(),
-                                csvContract.getFullName(), csvContract.getBirthDate(),
-                                csvContract.getGender(), csvContract.getPassportDetails()));
+                        add = true;
+                        break;
                     }
+                }
+
+                // if we have a new person, we add him to the list of persons
+                if (add) {
+                    persons.add(new Person(csvContract.getContractHolderID(),
+                            csvContract.getFullName(), csvContract.getBirthDate(),
+                            csvContract.getGender(), csvContract.getPassportDetails()));
                 }
 
                 for (Person p : persons) {
@@ -93,7 +105,7 @@ public class CSVParser {
      * @return Digital Television contract
      */
     private DigitalTelevision parseDigitalTelevision(CSVContract csvContract) {
-        ChannelPackage channelPackage;
+        ChannelPackage channelPackage = ChannelPackage.BASIC;
 
         if (csvContract.getAdditionalInfo().toString().toUpperCase().equals("ENTERTAINMENT")) {
             channelPackage = ChannelPackage.ENTERTAINMENT;
@@ -104,7 +116,7 @@ public class CSVParser {
         if (csvContract.getAdditionalInfo().toString().toUpperCase().equals("SPORTS")) {
             channelPackage = ChannelPackage.SPORTS;
         }
-        else {
+        if (csvContract.getAdditionalInfo().toString().toUpperCase().equals("BASIC")) {
             channelPackage = ChannelPackage.BASIC;
         }
 
