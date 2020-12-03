@@ -83,6 +83,7 @@ public class ContractRepository implements Repository<Contract> {
      * This method adds the contract to the repository
      * @param contract the contract to add
      */
+    @Override
     public void add(Contract contract) {
         if (repository.length == size) {
             updateCapacity();
@@ -96,6 +97,7 @@ public class ContractRepository implements Repository<Contract> {
      * This method removes a contract by its ID
      * @param ID this contract's ID
      */
+    @Override
     public void deleteByID(int ID) {
         Object[] newRepository = new Object[repository.length];
         int i = 0;
@@ -119,6 +121,7 @@ public class ContractRepository implements Repository<Contract> {
      * @param ID this contract's ID
      * @return contract
      */
+    @Override
     public Contract getByID(int ID) {
         for (int i = 0; i < size; i++) {
             if (repository[i] instanceof Contract) {
