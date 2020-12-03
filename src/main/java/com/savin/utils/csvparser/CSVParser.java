@@ -9,7 +9,10 @@ import com.savin.contracts.WiredInternet;
 import com.savin.entities.Person;
 import com.savin.enums.ChannelPackage;
 import com.savin.enums.ContractType;
+import com.savin.enums.ValidationStatus;
 import com.savin.repository.core.Repository;
+import com.savin.utils.validation.validators.AgeValidator;
+import com.savin.utils.validation.validators.Validator;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -26,15 +29,20 @@ import java.util.List;
  */
 public class CSVParser {
 
+    private static List<Validator<Contract>> validators = new ArrayList<>();
+    static {
+        validators.add(new AgeValidator());
+    }
+
     /**
      * A List of persons from CSV file
      */
-    List<Person> persons = new ArrayList<>();
+    private List<Person> persons = new ArrayList<>();
 
     /**
      * The person whose contract is currently being parsed
      */
-    Person currentPerson;
+    private Person currentPerson;
 
     /**
      * This method parses data from CSV to repository
@@ -85,15 +93,30 @@ public class CSVParser {
                 }
 
                 if (csvContract.getContractType().equals(ContractType.TV)) {
-                    repository.add(parseDigitalTelevision(csvContract));
+                   DigitalTelevision contract = parseDigitalTelevision(csvContract);
+                   for (Validator<Contract> validator : validators) {
+                       if (validator.validate(contract).getStatus() == ValidationStatus.FINE) {
+                           repository.add(contract);
+                       }
+                   }
                 }
 
                 if (csvContract.getContractType().equals(ContractType.MOBILE)) {
-                    repository.add(parseMobileCommunication(csvContract));
+                    MobileCommunication contract = parseMobileCommunication(csvContract);
+                    for (Validator<Contract> validator : validators) {
+                        if (validator.validate(contract).getStatus() == ValidationStatus.FINE) {
+                            repository.add(contract);
+                        }
+                    }
                 }
 
                 if (csvContract.getContractType().equals(ContractType.INTERNET)) {
-                    repository.add(parseWiredInternet(csvContract));
+                    WiredInternet contract = parseWiredInternet(csvContract);
+                    for (Validator<Contract> validator : validators) {
+                        if (validator.validate(contract).getStatus() == ValidationStatus.FINE) {
+                            repository.add(contract);
+                        }
+                    }
                 }
             }
         }
