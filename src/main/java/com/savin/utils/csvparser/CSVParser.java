@@ -35,7 +35,7 @@ public class CSVParser {
     /**
      * A list that contains all validators for CSV parser
      */
-    private static List<Validator<Contract>> validators = new ArrayList<>();
+    private static final List<Validator<Contract>> validators = new ArrayList<>();
     static {
         validators.add(new AgeValidator());
         validators.add(new ContractNumberValidator(3));
@@ -45,7 +45,7 @@ public class CSVParser {
     /**
      * A List of persons from CSV file
      */
-    private List<Person> persons = new ArrayList<>();
+    private final List<Person> persons = new ArrayList<>();
 
     /**
      * The person whose contract is currently being parsed
