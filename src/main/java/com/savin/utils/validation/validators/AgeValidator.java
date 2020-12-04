@@ -5,8 +5,21 @@ import com.savin.contracts.NoBirthDateException;
 import com.savin.enums.ValidationStatus;
 import com.savin.utils.validation.ValidationInfo;
 
+/**
+ * This class is used to validate age of the contract holder.
+ * It must be greater than 18
+ *
+ * @author Mikhail Savin
+ * @since 1.0
+ */
 public class AgeValidator implements Validator<Contract>{
 
+    /**
+     * This method validates given object by age
+     *
+     * @param contract person's(contract holder's) contract. So we can get information about the person himself
+     * @return result of the validation
+     */
     @Override
     public ValidationInfo validate(Contract contract) {
         try {

@@ -29,6 +29,9 @@ import java.util.List;
  */
 public class CSVParser {
 
+    /**
+     * A list that contains all validators for CSV parser
+     */
     private static List<Validator<Contract>> validators = new ArrayList<>();
     static {
         validators.add(new AgeValidator());
