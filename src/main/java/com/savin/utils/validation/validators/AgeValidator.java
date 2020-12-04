@@ -15,7 +15,7 @@ import com.savin.utils.validation.ValidationInfo;
 public class AgeValidator implements Validator<Contract>{
 
     /**
-     * This method validates given object by age
+     * This method validates given contract by contract holder's age
      *
      * @param contract person's(contract holder's) contract. So we can get information about the person himself
      * @return result of the validation
