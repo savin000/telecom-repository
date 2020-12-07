@@ -1,7 +1,9 @@
 package com.savin.repository.utils.sorting;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.Comparator;
-import java.util.logging.Logger;
 
 /**
  * This class represents Bubble sort implementation
@@ -10,7 +12,7 @@ import java.util.logging.Logger;
  * @since 1.0
  */
 public class BubbleSorter<E> implements Sorter<E> {
-    Logger log = Logger.getLogger(BubbleSorter.class.getName());
+    private static final Logger logger = LogManager.getLogger();
 
     /**
      * Sorts the repository using Bubble sort algorithm
@@ -30,6 +32,6 @@ public class BubbleSorter<E> implements Sorter<E> {
                 }
             }
         }
-        log.info("The repository is sorted using Bubble sort");
+        logger.info("The repository is sorted using Bubble sort");
     }
 }

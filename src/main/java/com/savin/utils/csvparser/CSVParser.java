@@ -15,6 +15,8 @@ import com.savin.utils.validation.validators.AgeValidator;
 import com.savin.utils.validation.validators.ContractEndDateValidator;
 import com.savin.utils.validation.validators.ContractNumberValidator;
 import com.savin.utils.validation.validators.Validator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -31,15 +33,18 @@ import java.util.List;
  * @since 1.0
  */
 public class CSVParser {
-
+    private static final Logger logger = LogManager.getLogger();
     /**
      * A list that contains all validators for CSV parser
      */
     private static final List<Validator<Contract>> validators = new ArrayList<>();
     static {
         validators.add(new AgeValidator());
+        logger.info("Age validator added");
         validators.add(new ContractNumberValidator(3));
+        logger.info("Contract number validator added");
         validators.add(new ContractEndDateValidator(LocalDate.of(2015, 1, 1)));
+        logger.info("Contract end date validator added");
     }
 
     /**
@@ -86,9 +91,12 @@ public class CSVParser {
 
                 // if we have a new person, we add him to the list of persons
                 if (add) {
-                    persons.add(new Person(csvContract.getContractHolderID(),
+                    Person person = new Person(csvContract.getContractHolderID(),
                             csvContract.getFullName(), csvContract.getBirthDate(),
-                            csvContract.getGender(), csvContract.getPassportDetails()));
+                            csvContract.getGender(), csvContract.getPassportDetails());
+                    persons.add(person);
+                    logger.debug("A person " + person.getFullName() +
+                            " with ID: " + person.getID() + " added to the list of persons");
                 }
 
                 for (Person p : persons) {

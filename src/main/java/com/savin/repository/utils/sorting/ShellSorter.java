@@ -1,7 +1,9 @@
 package com.savin.repository.utils.sorting;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.Comparator;
-import java.util.logging.Logger;
 
 /**
  * This class represents Shell sort implementation
@@ -10,7 +12,7 @@ import java.util.logging.Logger;
  * @since 1.0
  */
 public class ShellSorter<E> implements Sorter<E> {
-    Logger log = Logger.getLogger(ShellSorter.class.getName());
+    private static final Logger logger = LogManager.getLogger();
 
     /**
      * Sorts the repository using Shell sort algorithm
@@ -31,6 +33,6 @@ public class ShellSorter<E> implements Sorter<E> {
                 repository[j] = contract;
             }
         }
-        log.info("The repository is sorted using Shell sort");
+        logger.info("The repository is sorted using Shell sort");
     }
 }
