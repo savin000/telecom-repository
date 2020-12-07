@@ -96,7 +96,7 @@ public class CSVParser {
                             csvContract.getGender(), csvContract.getPassportDetails());
                     persons.add(person);
                     logger.debug("A person " + person.getFullName() +
-                            " with ID: " + person.getID() + " added to the list of persons");
+                            " with ID=" + person.getID() + " added to the list of persons");
                 }
 
                 for (Person p : persons) {
