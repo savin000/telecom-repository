@@ -32,6 +32,13 @@ public class ContractNumberValidator implements Validator<Contract> {
     }
 
     /**
+     * Creates a new validator
+     */
+    public ContractNumberValidator() {
+        this.contractNumberMaxValue = 0;
+    }
+
+    /**
      * Creates a new validator to validate number of contracts a person has
      *
      * @param contractNumberMaxValue allowed number of contracts to set

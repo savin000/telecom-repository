@@ -35,6 +35,13 @@ public class ContractEndDateValidator implements Validator<Contract> {
 
     /**
      * Creates a new validator to validate contract end date
+     */
+    public ContractEndDateValidator() {
+        this.minEndDate = LocalDate.of(2020, 11, 13);
+    }
+
+    /**
+     * Creates a new validator to validate contract end date
      *
      * @param minEndDate date border
      */
