@@ -2,7 +2,10 @@ package com.savin.utils.csvparser;
 
 import com.savin.contracts.DigitalTelevision;
 import com.savin.contracts.MobileCommunication;
-import com.savin.contracts.NoBirthDateException;
+import com.savin.di.Injector;
+import com.savin.di.NoInjectableClassesException;
+import com.savin.di.SurplusOfInjectableClassesException;
+import com.savin.entities.NoBirthDateException;
 import com.savin.contracts.WiredInternet;
 import com.savin.repository.core.ContractRepository;
 import org.junit.Test;
@@ -12,10 +15,11 @@ import java.io.IOException;
 public class CSVParserTest {
 
     @Test
-    public void test() throws IOException, NoBirthDateException {
+    public void test() throws IOException, NoBirthDateException, NoInjectableClassesException, InstantiationException, SurplusOfInjectableClassesException, IllegalAccessException {
         String path = "/home/mikhail/TelecomDataExample.csv";
         ContractRepository repository = new ContractRepository();
         CSVParser parser = new CSVParser();
+        Injector.inject(parser);
         parser.parse(repository, path);
 
         for (int i = 0; i < repository.getSize(); i++) {

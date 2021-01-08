@@ -1,14 +1,21 @@
 package com.savin.repository;
 
-import com.savin.contracts.*;
+import com.savin.contracts.Contract;
+import com.savin.contracts.DigitalTelevision;
+import com.savin.contracts.MobileCommunication;
+import com.savin.contracts.WiredInternet;
+import com.savin.di.Injector;
+import com.savin.di.NoInjectableClassesException;
+import com.savin.di.SurplusOfInjectableClassesException;
+import com.savin.entities.NoBirthDateException;
 import com.savin.entities.Person;
 import com.savin.enums.ChannelPackage;
 import com.savin.repository.core.ContractRepository;
-import com.savin.repository.utils.sorting.BubbleSorter;
 import com.savin.repository.utils.sorting.ShellSorter;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.function.Predicate;
@@ -404,7 +411,7 @@ public class ContractRepositoryTest {
     }
 
     @Test
-    public void sortBy_ID_withBubbleSort() {
+    public void sortBy_ID_withBubbleSort() throws NoInjectableClassesException, IOException, InstantiationException, SurplusOfInjectableClassesException, IllegalAccessException {
         ContractRepository repository = new ContractRepository();
         Contract wiredInternet1 = new WiredInternet(1, LocalDate.of(2020, 1, 15), LocalDate.now(),
                 15, persons[0], 100);
@@ -430,7 +437,7 @@ public class ContractRepositoryTest {
         assertEquals(digitalTelevision1, repository.getByIndex(2));
         assertEquals(digitalTelevision2, repository.getByIndex(3));
 
-        repository.setSortingAlgorithm(new BubbleSorter<>());
+        Injector.inject(repository);
         repository.sortBy(ascendingID);
 
         assertEquals(wiredInternet1, repository.getByIndex(0));
@@ -476,7 +483,7 @@ public class ContractRepositoryTest {
     }
 
     @Test
-    public void sortBy_ageOfContractHolder_withBubbleSort() {
+    public void sortBy_ageOfContractHolder_withBubbleSort() throws NoInjectableClassesException, IOException, InstantiationException, SurplusOfInjectableClassesException, IllegalAccessException {
         ContractRepository repository = new ContractRepository();
         Contract mobileCommunication1 = new MobileCommunication(1, LocalDate.of(2017, 7, 30),
                 LocalDate.of(2024, 9, 1), 17, persons[1], 200, 200, 10);
@@ -510,7 +517,7 @@ public class ContractRepositoryTest {
         assertEquals(wiredInternet2, repository.getByIndex(2));
         assertEquals(digitalTelevision3, repository.getByIndex(3));
 
-        repository.setSortingAlgorithm(new BubbleSorter<>());
+        Injector.inject(repository);
         repository.sortBy(ascendingAge);
 
         assertEquals(mobileCommunication1, repository.getByIndex(1));
