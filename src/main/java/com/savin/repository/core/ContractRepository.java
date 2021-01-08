@@ -1,5 +1,6 @@
 package com.savin.repository.core;
 
+import com.savin.annotations.AutoInjectable;
 import com.savin.contracts.Contract;
 import com.savin.repository.utils.sorting.BubbleSorter;
 import com.savin.repository.utils.sorting.Sorter;
@@ -21,6 +22,7 @@ public class ContractRepository implements Repository<Contract> {
     /**
      * A sorter for sorting the repository
      */
+    @AutoInjectable(clazz = BubbleSorter.class)
     private Sorter<Contract> sorter;
 
     /**
@@ -50,7 +52,6 @@ public class ContractRepository implements Repository<Contract> {
      */
     public ContractRepository() {
         repository = new Object[DEFAULT_CAPACITY];
-        sorter = new BubbleSorter<>();
     }
 
     /**
@@ -59,7 +60,6 @@ public class ContractRepository implements Repository<Contract> {
      */
     public ContractRepository(int capacity) {
         repository = new Object[capacity];
-        sorter = new BubbleSorter<>();
     }
 
     /**
