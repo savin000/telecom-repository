@@ -1,7 +1,7 @@
 package com.savin.utils.validation.validators;
 
 import com.savin.contracts.Contract;
-import com.savin.contracts.NoBirthDateException;
+import com.savin.entities.NoBirthDateException;
 import com.savin.enums.ValidationStatus;
 import com.savin.utils.validation.ValidationInfo;
 
