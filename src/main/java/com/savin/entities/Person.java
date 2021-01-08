@@ -1,7 +1,5 @@
 package com.savin.entities;
 
-import com.savin.contracts.NoBirthDateException;
-
 import java.time.LocalDate;
 import java.time.Period;
 
