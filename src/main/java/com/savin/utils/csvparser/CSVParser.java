@@ -2,6 +2,7 @@ package com.savin.utils.csvparser;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import com.savin.annotations.AutoInjectable;
 import com.savin.contracts.Contract;
 import com.savin.contracts.DigitalTelevision;
 import com.savin.contracts.MobileCommunication;
@@ -11,9 +12,6 @@ import com.savin.enums.ChannelPackage;
 import com.savin.enums.ContractType;
 import com.savin.enums.ValidationStatus;
 import com.savin.repository.core.Repository;
-import com.savin.utils.validation.validators.AgeValidator;
-import com.savin.utils.validation.validators.ContractEndDateValidator;
-import com.savin.utils.validation.validators.ContractNumberValidator;
 import com.savin.utils.validation.validators.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,7 +20,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,15 +34,8 @@ public class CSVParser {
     /**
      * A list that contains all validators for CSV parser
      */
-    private static final List<Validator<Contract>> validators = new ArrayList<>();
-    static {
-        validators.add(new AgeValidator());
-        logger.info("Age validator added");
-        validators.add(new ContractNumberValidator(3));
-        logger.info("Contract number validator added");
-        validators.add(new ContractEndDateValidator(LocalDate.of(2015, 1, 1)));
-        logger.info("Contract end date validator added");
-    }
+    @AutoInjectable(clazz = Validator.class)
+    private final List<Validator<Contract>> validators = new ArrayList<>();
 
     /**
      * A List of persons from CSV file
