@@ -7,6 +7,9 @@ import java.lang.annotation.Target;
 
 /**
  * Configuration annotation
+ *
+ * @author Mikhail Savin
+ * @since 1.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

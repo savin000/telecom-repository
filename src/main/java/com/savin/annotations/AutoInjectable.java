@@ -7,6 +7,9 @@ import java.lang.annotation.Target;
 
 /**
  * This annotation is used to mark fields for dependency injection
+ *
+ * @author Mikhail Savin
+ * @since 1.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
