@@ -1,4 +1,4 @@
-package com.savin.contracts;
+package com.savin.entities;
 
 /**
  * This class is needed when Person instance has no birth date value
