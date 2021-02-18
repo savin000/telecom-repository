@@ -31,7 +31,7 @@ public class Injector {
      * @throws NoInjectableClassesException if there are no injectable classes
      * @throws SurplusOfInjectableClassesException if there are too many injectable classes
      */
-    public static <E> void inject(E obj) throws IllegalAccessException, IOException, InstantiationException,
+    public static <E> void inject(E obj) throws
             NoInjectableClassesException, SurplusOfInjectableClassesException {
         ClassPath classPath = ClassPath.from(Thread.currentThread().getContextClassLoader());
 

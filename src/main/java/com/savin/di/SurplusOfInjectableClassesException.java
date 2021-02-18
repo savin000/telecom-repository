@@ -9,15 +9,6 @@ package com.savin.di;
 public class SurplusOfInjectableClassesException extends Exception {
 
     /**
-     * Constructor of the exception with Throwable object
-     *
-     * @param e the cause of this Throwable
-     */
-    public SurplusOfInjectableClassesException(Throwable e) {
-        initCause(e);
-    }
-
-    /**
      * Constructor of the exception with Throwable object and message
      *
      * @param message additional info on exception
