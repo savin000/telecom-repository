@@ -1,7 +1,7 @@
 package com.savin.di;
 
 /**
- * Exception class of non-injectable classes
+ * Exception class for dependency injection
  *
  * @author Mikhail Savin
  * @since 1.0
