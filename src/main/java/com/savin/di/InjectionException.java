@@ -6,7 +6,7 @@ package com.savin.di;
  * @author Mikhail Savin
  * @since 1.0
  */
-public class NoInjectableClassesException extends Exception {
+public class InjectionException extends Exception{
 
     /**
      * Constructor of the exception with Throwable object and message
@@ -14,7 +14,7 @@ public class NoInjectableClassesException extends Exception {
      * @param message additional info on exception
      * @param e the exception itself
      */
-    public NoInjectableClassesException(String message, Throwable e) {
+    public InjectionException(String message, Throwable e) {
         super(message, e);
     }
 
@@ -23,7 +23,7 @@ public class NoInjectableClassesException extends Exception {
      *
      * @param message additional info on exception
      */
-    public NoInjectableClassesException(String message) {
+    public InjectionException(String message) {
         super(message);
     }
 }
