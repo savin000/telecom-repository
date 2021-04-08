@@ -1,4 +1,4 @@
-package com.savin.utils.database.connection;
+package com.savin.utils.database;
 
 public final class DatabaseOperationsConstants {
 
