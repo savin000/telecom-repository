@@ -56,6 +56,6 @@ public class DatabaseOperationsTest {
         repository.add(mobileCommunication);
 
         DatabaseOperations databaseOperations = new DatabaseOperations();
-        databaseOperations.save(repository);
+        databaseOperations.saveContractRepository(repository);
     }
 }
