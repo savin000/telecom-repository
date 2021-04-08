@@ -12,12 +12,11 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 
-import static org.junit.Assert.*;
-
 /**
  * A class to test DatabaseOperations class
  *
  * @author Mikhail Savin
+ * @since 1.0
  */
 public class DatabaseOperationsTest {
 
@@ -56,8 +55,7 @@ public class DatabaseOperationsTest {
         repository.add(digitalTelevision);
         repository.add(mobileCommunication);
 
-
-
+        DatabaseOperations databaseOperations = new DatabaseOperations();
+        databaseOperations.save(repository);
     }
-
 }
