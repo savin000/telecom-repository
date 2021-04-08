@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="debug" strict="true"
-               name="XMLConfigTest" packages="org.apache.logging.log4j.test">
+<Configuration>
     <Filter type="ThresholdFilter" level="trace" />
-
     <Appenders>
-        <Console name="Console">
-            <Layout type="PatternLayout" pattern="%m %n" />
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%style{%d{ISO8601}}{bright, light} %highlight{%-5level }[%style{%t}{bright,blue}]
+%style{%C{1.}}{bright,yellow}: %msg%n%throwable" disableAnsi="false"/>
         </Console>
-        <RollingFile name="rollingFile"
-                     fileName="logs/log4j2.log"
-                     filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+
+        <RollingFile name="RollingFile"
+                     fileName="./log/telecom-repository.log"
+                     filePattern="./logs/$${date:yyyy-MM}/telecom-repository-%d{-dd-MMMM-yyyy}-%i.log.gz">
             <PatternLayout>
-                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+                <pattern>%d %p %C{1.} [%t] %m%n</pattern>
             </PatternLayout>
             <Policies>
+                <OnStartupTriggeringPolicy />
                 <TimeBasedTriggeringPolicy interval = "1" />
                 <SizeBasedTriggeringPolicy
                         size="10 MB" />
@@ -22,9 +24,9 @@
     </Appenders>
 
     <Loggers>
-        <Root level="DEBUG">
+        <Root level="INFO">
             <AppenderRef ref="Console" />
-            <AppenderRef ref="rollingFile" />
+            <AppenderRef ref="RollingFile" />
         </Root>
     </Loggers>
 

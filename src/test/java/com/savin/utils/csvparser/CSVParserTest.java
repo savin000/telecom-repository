@@ -11,8 +11,13 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+/**
+ * A class to test CSV parser
+ *
+ * @author Mikhail Savin
+ * @since 1.0
+ */
 public class CSVParserTest {
-
     @Test
     public void test() throws IOException, NoBirthDateException, InjectionException {
         String path = "/home/mikhail/TelecomDataExample.csv";

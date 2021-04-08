@@ -106,6 +106,13 @@ public class Person {
     }
 
     /**
+     * @return this person's date of birth
+     */
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    /**
      * @param birthDate person's date of birth to set (a date without a time-zone in the ISO-8601 calendar system)
      */
     public void setBirthDate(LocalDate birthDate) {

@@ -17,7 +17,7 @@ import java.util.function.Predicate;
  * @since 1.0
  */
 public class ContractRepository implements Repository<Contract> {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     /**
      * A sorter for sorting the repository
@@ -77,7 +77,7 @@ public class ContractRepository implements Repository<Contract> {
         Object[] newRepository = new Object[newCapacity];
         System.arraycopy(repository, 0, newRepository, 0, repository.length);
         repository = newRepository;
-        logger.info("Capacity was increased");
+        LOGGER.debug("Capacity was increased");
     }
 
     /**
@@ -90,7 +90,7 @@ public class ContractRepository implements Repository<Contract> {
             updateCapacity();
         }
         repository[size] = contract;
-        logger.info("Contract " + contract.getClass().getSimpleName() + " was added");
+        LOGGER.debug("Contract {} was added", contract.getClass().getSimpleName());
         size = size + 1;
     }
 
@@ -109,7 +109,7 @@ public class ContractRepository implements Repository<Contract> {
                     newRepository[i] = obj;
                     i = i + 1;
                 } else {
-                    logger.info("Contract with ID " + ID + " was deleted");
+                    LOGGER.debug("Contract with ID {} was deleted", ID);
                     size = size - 1;
                 }
             }
@@ -127,7 +127,7 @@ public class ContractRepository implements Repository<Contract> {
         for (int i = 0; i < size; i++) {
             if (repository[i] instanceof Contract) {
                 if (((Contract) repository[i]).getID() == ID) {
-                    logger.info("Contract with ID " + ID + " was successfully got by ID");
+                    LOGGER.debug("Contract with ID {} was successfully got by ID", ID);
                     return (Contract) repository[i];
                 }
             }
@@ -143,7 +143,7 @@ public class ContractRepository implements Repository<Contract> {
     public Contract getByIndex(int index) {
         for (int i = 0; i < size; i++) {
             if (i == index) {
-                logger.info("Contract with index " + index + " was successfully got by index");
+                LOGGER.debug("Contract with index {} was successfully got by index", index);
                 return (Contract) repository[i];
             }
         }
@@ -160,7 +160,7 @@ public class ContractRepository implements Repository<Contract> {
         Repository<Contract> searchResult = new ContractRepository();
         for (int i = 0; i < size; i++) {
             if (predicate.test((Contract) repository[i])) {
-                logger.info("Matching contract found");
+                LOGGER.debug("Matching contract found");
                 searchResult.add((Contract) repository[i]);
             }
         }
