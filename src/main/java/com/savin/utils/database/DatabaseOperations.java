@@ -17,32 +17,69 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+/**
+ * This class allows to save repository with contracts to database or
+ * retrieve data from the database
+ *
+ * @author Mikhail Savin
+ * @since 1.0
+ */
 public class DatabaseOperations {
     private static final Logger LOGGER = LogManager.getLogger();
 
+    /**
+     * SQL query to create table for persons
+     */
     private static final String CREATE_PERSON_TABLE = "CREATE TABLE IF NOT EXISTS person(" +
             "ID INT PRIMARY KEY, FULL_NAME VARCHAR(255), BIRTH_DATE DATE," +
             "GENDER VARCHAR(255), PASSPORT_DETAILS VARCHAR(255))";
 
+    /**
+     * SQL query to create table for contracts
+     */
     private static final String CREATE_CONTRACT_TABLE = "CREATE TABLE IF NOT EXISTS contract(" +
             "CONTRACT_ID INT PRIMARY KEY, CONTRACT_START_DATE DATE, CONTRACT_END_DATE DATE," +
             "CONTRACT_NUMBER INT, CONTRACT_TYPE VARCHAR(255), ADDITIONAL_INFO VARCHAR(255), CONTRACT_HOLDER_ID INT," +
             "foreign key (CONTRACT_HOLDER_ID) references person(ID))";
 
+    /**
+     * SQL query to insert person into 'person' table
+     */
     private static final String INSERT_PERSON = "INSERT INTO person VALUES(?, ?, ?, ?, ?)";
 
+    /**
+     * SQL query to insert contract into 'contract' table
+     */
     private static final String INSERT_CONTRACT = "INSERT INTO contract VALUES(?, ?, ?, ?, ?, ?, ?)";
 
+    /**
+     * SQL query to get contract with a person who holds it
+     */
     private static final String SELECT_REPOSITORY = "SELECT c.*, p.* FROM contract AS c JOIN person AS p ON c.contract_holder_id = p.id";
 
+    /**
+     * Database driver
+     */
     private String driver;
 
+    /**
+     * Database url
+     */
     private String url;
 
+    /**
+     * Database user
+     */
     private String user;
 
+    /**
+     * Database user's password
+     */
     private String password;
 
+    /**
+     * Sets database driver and loads connection properties
+     */
     public DatabaseOperations() {
         loadProperties();
         try {
@@ -52,6 +89,9 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Loads database connection properties from resources and initializes corresponding fields
+     */
     private void loadProperties() {
         Properties properties = new Properties();
 
@@ -67,6 +107,9 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * This method creates a table for persons using SQL query (if it doesn't exist)
+     */
     public void createPersonTableIfNotExists() {
         try (Connection connection = DriverManager.getConnection(url, user, password);
              Statement statement = connection.createStatement()) {
@@ -76,6 +119,9 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * This method creates a table for contracts using SQL query (if it doesn't exist)
+     */
     public void createContractTableIfNotExists() {
         try (Connection connection = DriverManager.getConnection(url, user, password);
              Statement statement = connection.createStatement()) {
@@ -85,6 +131,13 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Saves repository to the database using SQL insert query.
+     * Person is saved to 'PERSON' table.
+     * Contract is saved to 'CONTRACT' table with a person's foreign key.
+     *
+     * @param repository the repository with the data you want to save
+     */
     public void saveContractRepository(ContractRepository repository) {
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement personStatement = connection.prepareStatement(INSERT_PERSON);
@@ -144,6 +197,11 @@ public class DatabaseOperations {
         }
     }
 
+    /**
+     * Restores a repository from database
+     *
+     * @return repository with the data from database
+     */
     public ContractRepository getContractRepository() {
         ContractRepository repository = new ContractRepository();
         try (Connection connection = DriverManager.getConnection(url, user, password);
