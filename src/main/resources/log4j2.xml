@@ -9,8 +9,8 @@
         </Console>
 
         <RollingFile name="RollingFile"
-                     fileName="./log/data-collector.log"
-                     filePattern="./logs/$${date:yyyy-MM}/data-collector-%d{-dd-MMMM-yyyy}-%i.log.gz">
+                     fileName="./log/telecom-repository.log"
+                     filePattern="./logs/$${date:yyyy-MM}/telecom-repository-%d{-dd-MMMM-yyyy}-%i.log.gz">
             <PatternLayout>
                 <pattern>%d %p %C{1.} [%t] %m%n</pattern>
             </PatternLayout>
