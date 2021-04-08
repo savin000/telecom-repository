@@ -7,6 +7,7 @@ import com.savin.repository.utils.sorting.Sorter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.xml.bind.annotation.*;
 import java.util.Comparator;
 import java.util.function.Predicate;
 
@@ -16,28 +17,35 @@ import java.util.function.Predicate;
  * @author Mikhail Savin
  * @since 1.0
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ContractRepository implements Repository<Contract> {
     private static final Logger LOGGER = LogManager.getLogger();
 
     /**
      * A sorter for sorting the repository
      */
+    @XmlTransient
     @AutoInjectable(clazz = BubbleSorter.class)
     private Sorter<Contract> sorter;
 
     /**
      * Default capacity of the repository (100 contracts)
      */
+    @XmlTransient
     private static final int DEFAULT_CAPACITY = 100;
 
     /**
      * Current size of the repository
      */
+    @XmlTransient
     private int size = 0;
 
     /**
      * An array where contracts are stored
      */
+    @XmlElementWrapper(name = "repository")
+    @XmlElement(name = "contract")
     private Object[] repository;
 
     /**
