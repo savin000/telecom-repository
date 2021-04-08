@@ -70,10 +70,10 @@ public class MobileCommunication extends Contract{
     }
 
     /**
-     * Creates a new Mobile Communication Contract with the given ID, contract start date, contract end date,
+     * Creates a new Mobile Communication Contract with the given id, contract start date, contract end date,
      * contract number, contract holder, number of minutes, number of SMS and amount of Internet traffic
      *
-     * @param ID set the initial value for the class attribute ID
+     * @param id set the initial value for the class attribute id
      * @param startDate contract start date to set (a date without a time-zone in the ISO-8601 calendar system)
      * @param endDate contract end date to set (a date without a time-zone in the ISO-8601 calendar system)
      * @param contractNumber contract number to set
@@ -82,9 +82,9 @@ public class MobileCommunication extends Contract{
      * @param sms number of SMS to set
      * @param traffic number of GBytes to set
      */
-    public MobileCommunication(int ID, LocalDate startDate, LocalDate endDate, int contractNumber, Person contractHolder,
+    public MobileCommunication(int id, LocalDate startDate, LocalDate endDate, int contractNumber, Person contractHolder,
                         int minutes, int sms, double traffic) {
-        super(ID, startDate, endDate, contractNumber, contractHolder);
+        super(id, startDate, endDate, contractNumber, contractHolder);
         this.minutes = minutes;
         this.sms = sms;
         this.traffic = traffic;
