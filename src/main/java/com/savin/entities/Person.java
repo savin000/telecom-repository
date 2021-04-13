@@ -1,5 +1,9 @@
 package com.savin.entities;
 
+import com.savin.utils.xml.LocalDateAdapter;
+
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -9,45 +13,52 @@ import java.time.Period;
  * @author Mikhail Savin
  * @since 1.0
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Person {
 
     /**
      * A number which uniquely identifies a person
      */
-    private int ID;
+    @XmlElement(name = "id")
+    private int id;
 
     /**
      * Full name of a person
      */
+    @XmlElement(name = "fullName")
     private String fullName;
 
     /**
      * Person's date of birth
      */
+    @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
+    @XmlElement(name = "birthDate")
     private LocalDate birthDate;
 
     /**
      * Person's gender (may not be specified)
      */
+    @XmlElement(name = "gender")
     private String gender;
 
     /**
      * Person's passport details
      */
+    @XmlElement(name = "passportDetails")
     private String passportDetails;
 
     /**
-     * @return this person's ID
+     * @return this person's id
      */
     public int getID() {
-        return ID;
+        return id;
     }
 
     /**
-     * @param ID ID to set
+     * @param id id to set
      */
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setID(int id) {
+        this.id = id;
     }
 
     /**
@@ -120,16 +131,22 @@ public class Person {
     }
 
     /**
-     * Creates a new Person with the given ID, full name, date of birth, gender and passport details
+     * Default constructor (added as it is used by JAXB)
+     */
+    public Person() {
+    }
+
+    /**
+     * Creates a new Person with the given id, full name, date of birth, gender and passport details
      *
-     * @param ID set the initial value for the class attribute ID
+     * @param id set the initial value for the class attribute id
      * @param fullName person's full name to set
      * @param birthDate person's date of birth to set (a date without a time-zone in the ISO-8601 calendar system)
      * @param gender person's gender to set
      * @param passportDetails person's passport details to set
      */
-    public Person(int ID, String fullName, LocalDate birthDate, String gender, String passportDetails) {
-        this.ID = ID;
+    public Person(int id, String fullName, LocalDate birthDate, String gender, String passportDetails) {
+        this.id = id;
         this.fullName = fullName;
         this.birthDate = birthDate;
         this.gender = gender;

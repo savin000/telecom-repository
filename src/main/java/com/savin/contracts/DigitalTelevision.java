@@ -3,6 +3,9 @@ package com.savin.contracts;
 import com.savin.entities.Person;
 import com.savin.enums.ChannelPackage;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import java.time.LocalDate;
 
 /**
@@ -11,11 +14,13 @@ import java.time.LocalDate;
  * @author Mikhail Savin
  * @since 1.0
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DigitalTelevision extends Contract {
 
     /**
      * A package with TV channels
      */
+    @XmlElement(name = "channelPackage")
     private ChannelPackage channelPackage;
 
     /**
@@ -33,19 +38,26 @@ public class DigitalTelevision extends Contract {
     }
 
     /**
-     * Creates a new Digital TV Contract with the given ID, contract start date, contract end date,
+     * Default constructor (added as it is used by JAXB)
+     */
+    public DigitalTelevision() {
+        super();
+    }
+
+    /**
+     * Creates a new Digital TV Contract with the given id, contract start date, contract end date,
      * contract number, contract holder and selected channel package.
      *
-     * @param ID set the initial value for the class attribute ID
+     * @param id set the initial value for the class attribute id
      * @param startDate contract start date to set (a date without a time-zone in the ISO-8601 calendar system)
      * @param endDate contract end date to set (a date without a time-zone in the ISO-8601 calendar system)
      * @param contractNumber contract number to set
      * @param contractHolder contract holder to set
      * @param channelPackage platform channel package to set
      */
-    public DigitalTelevision(int ID, LocalDate startDate, LocalDate endDate, int contractNumber, Person contractHolder,
+    public DigitalTelevision(int id, LocalDate startDate, LocalDate endDate, int contractNumber, Person contractHolder,
                       ChannelPackage channelPackage) {
-        super(ID, startDate, endDate, contractNumber, contractHolder);
+        super(id, startDate, endDate, contractNumber, contractHolder);
         this.channelPackage = channelPackage;
     }
 }

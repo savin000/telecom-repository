@@ -2,11 +2,15 @@ package com.savin.repository.core;
 
 import com.savin.annotations.AutoInjectable;
 import com.savin.contracts.Contract;
+import com.savin.contracts.DigitalTelevision;
+import com.savin.contracts.MobileCommunication;
+import com.savin.contracts.WiredInternet;
 import com.savin.repository.utils.sorting.BubbleSorter;
 import com.savin.repository.utils.sorting.Sorter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.xml.bind.annotation.*;
 import java.util.Comparator;
 import java.util.function.Predicate;
 
@@ -16,28 +20,39 @@ import java.util.function.Predicate;
  * @author Mikhail Savin
  * @since 1.0
  */
+@XmlRootElement(name = "contractRepository")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ContractRepository implements Repository<Contract> {
     private static final Logger LOGGER = LogManager.getLogger();
 
     /**
      * A sorter for sorting the repository
      */
+    @XmlTransient
     @AutoInjectable(clazz = BubbleSorter.class)
     private Sorter<Contract> sorter;
 
     /**
      * Default capacity of the repository (100 contracts)
      */
+    @XmlTransient
     private static final int DEFAULT_CAPACITY = 100;
 
     /**
      * Current size of the repository
      */
+    @XmlTransient
     private int size = 0;
 
     /**
      * An array where contracts are stored
      */
+    @XmlElementWrapper
+    @XmlElements({
+            @XmlElement(name = "wiredInternet", type = WiredInternet.class),
+            @XmlElement(name = "digitalTelevision", type = DigitalTelevision.class),
+            @XmlElement(name = "mobileCommunication", type = MobileCommunication.class)
+    })
     private Object[] repository;
 
     /**
