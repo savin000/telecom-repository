@@ -2,6 +2,9 @@ package com.savin.repository.core;
 
 import com.savin.annotations.AutoInjectable;
 import com.savin.contracts.Contract;
+import com.savin.contracts.DigitalTelevision;
+import com.savin.contracts.MobileCommunication;
+import com.savin.contracts.WiredInternet;
 import com.savin.repository.utils.sorting.BubbleSorter;
 import com.savin.repository.utils.sorting.Sorter;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +20,7 @@ import java.util.function.Predicate;
  * @author Mikhail Savin
  * @since 1.0
  */
-@XmlRootElement
+@XmlRootElement(name = "contractRepository")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ContractRepository implements Repository<Contract> {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -44,8 +47,12 @@ public class ContractRepository implements Repository<Contract> {
     /**
      * An array where contracts are stored
      */
-    @XmlElementWrapper(name = "repository")
-    @XmlElement(name = "contract")
+    @XmlElementWrapper
+    @XmlElements({
+            @XmlElement(name = "wiredInternet", type = WiredInternet.class),
+            @XmlElement(name = "digitalTelevision", type = DigitalTelevision.class),
+            @XmlElement(name = "mobileCommunication", type = MobileCommunication.class)
+    })
     private Object[] repository;
 
     /**

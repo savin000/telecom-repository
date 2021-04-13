@@ -2,6 +2,9 @@ package com.savin.contracts;
 
 import com.savin.entities.Person;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import java.time.LocalDate;
 
 /**
@@ -10,11 +13,13 @@ import java.time.LocalDate;
  * @author Mikhail Savin
  * @since 1.0
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class WiredInternet extends Contract {
 
     /**
      * Connection speed according to the tariff (in Mbps)
      */
+    @XmlElement(name = "connectionSpeed")
     private double connectionSpeed;
 
     /**
@@ -29,6 +34,13 @@ public class WiredInternet extends Contract {
      */
     public void setConnectionSpeed(double connectionSpeed) {
         this.connectionSpeed = connectionSpeed;
+    }
+
+    /**
+     * Default constructor (added as it is used by JAXB)
+     */
+    public WiredInternet() {
+        super();
     }
 
     /**

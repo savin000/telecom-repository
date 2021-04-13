@@ -3,6 +3,9 @@ package com.savin.contracts;
 import com.savin.entities.Person;
 import com.savin.enums.ChannelPackage;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import java.time.LocalDate;
 
 /**
@@ -11,11 +14,13 @@ import java.time.LocalDate;
  * @author Mikhail Savin
  * @since 1.0
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DigitalTelevision extends Contract {
 
     /**
      * A package with TV channels
      */
+    @XmlElement(name = "channelPackage")
     private ChannelPackage channelPackage;
 
     /**
@@ -30,6 +35,13 @@ public class DigitalTelevision extends Contract {
      */
     public void setChannelPackage(ChannelPackage channelPackage) {
         this.channelPackage = channelPackage;
+    }
+
+    /**
+     * Default constructor (added as it is used by JAXB)
+     */
+    public DigitalTelevision() {
+        super();
     }
 
     /**

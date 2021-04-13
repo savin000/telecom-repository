@@ -2,6 +2,9 @@ package com.savin.contracts;
 
 import com.savin.entities.Person;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import java.time.LocalDate;
 
 /**
@@ -10,21 +13,25 @@ import java.time.LocalDate;
  * @author Mikhail Savin
  * @since 1.0
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class MobileCommunication extends Contract{
 
     /**
      * Number of minutes according to the tariff
      */
+    @XmlElement(name = "minutes")
     private int minutes;
 
     /**
      * Number of SMS according to the tariff
      */
+    @XmlElement(name = "sms")
     private int sms;
 
     /**
      * GBytes of Internet traffic according to the tariff
      */
+    @XmlElement(name = "traffic")
     private double traffic;
 
     /**
@@ -67,6 +74,13 @@ public class MobileCommunication extends Contract{
      */
     public void setTraffic(double traffic) {
         this.traffic = traffic;
+    }
+
+    /**
+     * Default constructor (added as it is used by JAXB)
+     */
+    public MobileCommunication() {
+        super();
     }
 
     /**

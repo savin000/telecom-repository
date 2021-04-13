@@ -3,9 +3,7 @@ package com.savin.contracts;
 import com.savin.entities.Person;
 import com.savin.utils.xml.LocalDateAdapter;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 
@@ -20,34 +18,38 @@ import java.time.LocalDate;
  * @since 1.0
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder={"id", "contractNumber", "startDate", "endDate", "contractHolder" })
 public abstract class Contract {
 
     /**
      * A number which uniquely identifies a contract
      */
+    @XmlElement(name = "id")
     private int id;
 
     /**
      * A date when the contract was concluded
      */
     @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
+    @XmlElement(name = "startDate")
     private LocalDate startDate;
 
     /**
      * A date when the contract ends
      */
     @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
+    @XmlElement(name = "endDate")
     private LocalDate endDate;
 
     /**
      * The number assigned to the contract
      */
+    @XmlElement(name = "contractNumber")
     private int contractNumber;
 
     /**
      * A person who holds this specific contract
      */
+    @XmlElement(name = "contractHolder")
     private Person contractHolder;
 
     /**
@@ -118,6 +120,12 @@ public abstract class Contract {
      */
     public void setContractHolder(Person contractHolder) {
         this.contractHolder = contractHolder;
+    }
+
+    /**
+     * Default constructor (added as it is used by JAXB)
+     */
+    public Contract() {
     }
 
     /**

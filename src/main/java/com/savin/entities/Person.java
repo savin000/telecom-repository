@@ -2,9 +2,7 @@ package com.savin.entities;
 
 import com.savin.utils.xml.LocalDateAdapter;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import java.time.Period;
@@ -16,33 +14,37 @@ import java.time.Period;
  * @since 1.0
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder={"id", "fullName" , "birthDate", "gender", "passportDetails" })
 public class Person {
 
     /**
      * A number which uniquely identifies a person
      */
+    @XmlElement(name = "id")
     private int id;
 
     /**
      * Full name of a person
      */
+    @XmlElement(name = "fullName")
     private String fullName;
 
     /**
      * Person's date of birth
      */
     @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
+    @XmlElement(name = "birthDate")
     private LocalDate birthDate;
 
     /**
      * Person's gender (may not be specified)
      */
+    @XmlElement(name = "gender")
     private String gender;
 
     /**
      * Person's passport details
      */
+    @XmlElement(name = "passportDetails")
     private String passportDetails;
 
     /**
@@ -126,6 +128,12 @@ public class Person {
      */
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
+    }
+
+    /**
+     * Default constructor (added as it is used by JAXB)
+     */
+    public Person() {
     }
 
     /**
