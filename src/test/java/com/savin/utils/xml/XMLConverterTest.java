@@ -14,6 +14,8 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * A class to test XMLConverter class
  *
@@ -21,6 +23,9 @@ import java.time.LocalDate;
  * @since 1.0
  */
 public class XMLConverterTest {
+    private static final Logger LOGGER = LogManager.getLogger();
+
+    private static final String PATH_TO_XML = "contracts.xml";
 
     /**
      * An array where persons are stored
@@ -54,14 +59,45 @@ public class XMLConverterTest {
         Contract digitalTelevision2 = new DigitalTelevision(3, LocalDate.of(2019, 3, 12),
                 LocalDate.of(2024, 3, 12), 16, persons[0], ChannelPackage.BASIC);
 
-
         repository.add(wiredInternet1);
         repository.add(wiredInternet2);
         repository.add(digitalTelevision1);
         repository.add(digitalTelevision2);
         repository.add(mobileCommunication);
 
-        XMLConverter xmlConverter = new XMLConverter();
-        xmlConverter.convertToXml(repository);
+        XMLConverter.convertToXml(repository, PATH_TO_XML);
+    }
+
+    @Test
+    public void getRepositoryFromXML() {
+        ContractRepository repository = XMLConverter.convertToObject(PATH_TO_XML);
+        System.out.println(repository.getSize());
+
+        for (int i = 0; i < repository.getSize(); i++) {
+            LOGGER.info("ID {}", repository.getByIndex(i).getID());
+            LOGGER.info("Start date {}", repository.getByIndex(i).getStartDate());
+            LOGGER.info("End date {}", repository.getByIndex(i).getEndDate());
+            LOGGER.info("Contract number {}", repository.getByIndex(i).getContractNumber());
+            LOGGER.info("Contract holder's ID {}", repository.getByIndex(i).getContractHolder().getID());
+            LOGGER.info("Contract holder's full name {}", repository.getByIndex(i).getContractHolder().getFullName());
+            LOGGER.info("Contract holder's birth date {}", repository.getByIndex(i).getContractHolder().getBirthDate());
+            LOGGER.info("Contract holder's gender {}", repository.getByIndex(i).getContractHolder().getGender());
+            LOGGER.info("Contract holder's passport details {}", repository.getByIndex(i).getContractHolder().getPassportDetails());
+
+            if (repository.getByIndex(i) instanceof MobileCommunication) {
+                LOGGER.info("Minutes: {}", ((MobileCommunication) repository.getByIndex(i)).getMinutes());
+                LOGGER.info("SMS: {}", ((MobileCommunication) repository.getByIndex(i)).getSms());
+                LOGGER.info("Traffic (GB): {}", ((MobileCommunication) repository.getByIndex(i)).getTraffic());
+            }
+            if (repository.getByIndex(i) instanceof DigitalTelevision) {
+                LOGGER.info("Channel package: {}", ((DigitalTelevision) repository.getByIndex(i)).getChannelPackage());
+            }
+            if (repository.getByIndex(i) instanceof WiredInternet) {
+                LOGGER.info("Connection speed: {}", ((WiredInternet) repository.getByIndex(i)).getConnectionSpeed());
+            }
+
+            int expectedSize = 5;
+            assertEquals(expectedSize, repository.getSize());
+        }
     }
 }
